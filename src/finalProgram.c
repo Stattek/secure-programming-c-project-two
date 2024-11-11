@@ -22,8 +22,8 @@ static bool isInteger(const char *str);
 static void makeChoice(void)
 {
     static const char *options[] = {
-        "Test",
-        "Test2"};
+        "Remove invalid characters from strings",
+    };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
     for (int i = 0; i < optionsLength; i++)
@@ -32,8 +32,6 @@ static void makeChoice(void)
     }
 
     bool validInput = false;
-
-    printf("DEBUG: optionsLength: %d\n", optionsLength);
 
     char buf[INPUT_BUFFER_SIZE] = ""; // +1 for null-terminating char
     while (!validInput)
@@ -49,7 +47,6 @@ static void makeChoice(void)
 
         if (isInteger(buf))
         {
-            printf("DEBUG:%s is valid integer\n", buf);
             validInput = true;
         }
         else
@@ -70,7 +67,7 @@ static void makeChoice(void)
     switch (userInput)
     {
     case 1:
-
+        removeInvalidChars();
         break;
 
     default:
@@ -100,7 +97,6 @@ static bool isInteger(const char *str)
 
 int main(void)
 {
-    printf("Hello, world!\n");
     makeChoice();
     return 0;
 }

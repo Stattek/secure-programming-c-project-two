@@ -1,20 +1,24 @@
-.PHONY: debug clean run
+.PHONY: debug clean run setup
 
-finalProgram: finalProgram.o davidRules.o
+build/finalProgram: build/finalProgram.o build/davidRules.o
 	@ if ! test -d build/; then mkdir build; fi
-	gcc -o finalProgram finalProgram.o davidRules.o
-	mv *.o build/
+	gcc -o finalProgram build/finalProgram.o build/davidRules.o
 	mv finalProgram build/
 
-finalProgram.o: finalProgram.c
+build/finalProgram.o: finalProgram.c
 	gcc -c finalProgram.c
+	mv finalProgram.o build/
 
-davidRules.o: davidRules.c
+build/davidRules.o: davidRules.c
 	gcc -c davidRules.c
+	mv davidRules.o build/
+
+setup:
+	mkdir build
 
 debug:
 	@ if ! test -d build/; then mkdir build; fi
-	gcc -g -o finalProgram finalProgram.c davidRules.c
+	gcc -g -o finalProgram *.c
 	mv finalProgram build/
 
 clean:
