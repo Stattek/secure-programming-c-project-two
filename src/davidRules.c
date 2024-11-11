@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define STR_ARRAY_SIZE 20
+#define STR_ARRAY_SIZE 1024
 
 const char *validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -24,13 +24,26 @@ bool continueProcessingFlag;
 jobList *jobs;
 jobList *completedJobs;
 
-// CWE 833: Preventing deadlock by having threads share resources but do not use more than one at a time, which prevents a circular wait.
+/**
+ * CWE 833: Preventing deadlock by having threads share resources,
+ * but we do not use more than one at a time, which prevents a circular wait.
+ * This will ensure that a deadlock is impossible because we prevent one of the
+ * four conditions for deadlock (out of the conditions: circular wait, hold and wait,
+ * mutual exclusion, and no preemption).
+ */
 pthread_mutex_t continueProcessingFlagMutex;
 pthread_mutex_t jobListMutex;
 pthread_mutex_t completedJobsMutex;
 
-static void addCompletedJob(char *jobStr, int jobStrLen)
+static void addCompletedJob(char *jobStr)
 {
+    /**
+     * CWE 252: Unchecked Return Value
+     * We avoid this by checking the return value from the malloc() function, which has
+     * the possibility of returning a null pointer in cases such as when there is no memory
+     * that it can allocate for the variable. If we cannot malloc this node in the job list,
+     * we just do not add it.
+     */
     jobList *newCompletedJob = malloc(sizeof(jobList));
     if (!newCompletedJob)
     {
@@ -38,7 +51,11 @@ static void addCompletedJob(char *jobStr, int jobStrLen)
         return;
     }
 
-    strncpy(newCompletedJob->theStr, jobStr, jobStrLen);
+    /**
+     * CWE 120 Copy the jobStr buffer into theStr, using strncpy to check the size of the input
+     * (truncating the string if it is larger than the destination buffer theStr)
+     */
+    strncpy(newCompletedJob->theStr, jobStr, STR_ARRAY_SIZE);
     newCompletedJob->nextJob = NULL;
 
     pthread_mutex_lock(&completedJobsMutex);
@@ -62,7 +79,7 @@ static void addCompletedJob(char *jobStr, int jobStrLen)
     pthread_mutex_unlock(&completedJobsMutex);
 }
 
-static void *performJob(void *arg)
+static void *executeJob(void *arg)
 {
     while (true)
     {
@@ -108,7 +125,7 @@ static void *performJob(void *arg)
             }
 
             // create a new completed job
-            addCompletedJob(currentJob->theStr, STR_ARRAY_SIZE);
+            addCompletedJob(currentJob->theStr);
 
             // cleanup this job
             free(currentJob);
@@ -117,15 +134,26 @@ static void *performJob(void *arg)
     return NULL;
 }
 
-static void addJob(char *jobStr, int jobStrLen)
+static void addJob(char *jobStr)
 {
+    /**
+     * CWE 252: Unchecked Return Value
+     * We avoid this by checking the return value from the malloc() function, which has
+     * the possibility of returning a null pointer in cases such as when there is no memory
+     * that it can allocate for the variable. If we cannot malloc this node in the job list,
+     * we just do not add it.
+     */
     jobList *newJob = malloc(sizeof(jobList));
     if (!newJob)
     {
         fprintf(stderr, "Error creating new job for job list\n");
     }
 
-    strncpy(newJob->theStr, jobStr, jobStrLen);
+    /**
+     * CWE 120 Copy the jobStr buffer into theStr, using strncpy to check the size of the input
+     * (truncating the string if it is larger than the destination buffer theStr)
+     */
+    strncpy(newJob->theStr, jobStr, STR_ARRAY_SIZE);
     newJob->nextJob = NULL;
 
     pthread_mutex_lock(&jobListMutex);
@@ -159,7 +187,7 @@ static void initializeValues(void)
     printf("Enter first string to remove invalid characters from\n>> ");
     char userInput[STR_ARRAY_SIZE + 1] = "";
     fgets(userInput, STR_ARRAY_SIZE, stdin);
-    addJob(userInput, STR_ARRAY_SIZE);
+    addJob(userInput);
 }
 
 static void setContinueProcessingFlag(bool value)
@@ -185,8 +213,8 @@ void removeInvalidChars(void)
     pthread_t thread1;
     pthread_t thread2;
 
-    pthread_create(&thread1, NULL, &performJob, NULL);
-    pthread_create(&thread2, NULL, &performJob, NULL);
+    pthread_create(&thread1, NULL, &executeJob, NULL);
+    pthread_create(&thread2, NULL, &executeJob, NULL);
 
     bool continueReading = true;
     char userInput[STR_ARRAY_SIZE + 1] = "";
@@ -201,7 +229,7 @@ void removeInvalidChars(void)
         }
         else
         {
-            addJob(userInput, STR_ARRAY_SIZE);
+            addJob(userInput);
         }
     }
 
