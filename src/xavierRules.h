@@ -5,15 +5,15 @@
 #ifndef XAVIERRULES_H
 #define XAVIERRULES_H
 
-void addItem(int index, char *itemName);
+int findItemIndex(char *itemName);
+
+void addItem();
 
 int getItemQuantity();
 
-void addDuplicateItem(char *itemName, int quantity);
-
 void displayMenu(int choice);
 
-int isInventoryFull(int count);
+int isInventoryFull();
 
 void getItemName(char *name);
 
