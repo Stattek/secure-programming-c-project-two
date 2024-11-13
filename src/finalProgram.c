@@ -11,6 +11,7 @@
 #include "davidRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
+#define NUM_SORT_ARRAY_ELEMENTS 8
 
 static void makeChoice(void);
 static bool isInteger(const char *str);
@@ -21,8 +22,11 @@ static bool isInteger(const char *str);
  */
 static void makeChoice(void)
 {
+    // NOTE: new options are added here
     static const char *options[] = {
-        "Remove invalid characters from strings",
+        "Remove non-characters from input",
+        "Validate user input",
+        "Perform Stalin sort",
     };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
@@ -64,12 +68,64 @@ static void makeChoice(void)
         fprintf(stderr, "Error converting user input to long\n");
     }
 
+    // NOTE: add functions as cases here
     switch (userInput)
     {
     case 1:
         removeInvalidChars();
         break;
+    case 2:
+        Account account;
+        if (createAccount(&account))
+        {
+            fprintf(stderr, "Error creating account\n");
+            break;
+        }
 
+        if (printAccountInfo(&account))
+        {
+            fprintf(stderr, "Error printing account info\n");
+            break;
+        }
+
+        break;
+    case 3:
+        int *numArray = NULL;
+        int numElements = NUM_SORT_ARRAY_ELEMENTS;
+        if (getArrayFromUser(&numArray, numElements))
+        {
+            fprintf(stderr, "Error getting array from user\n");
+            break;
+        }
+
+        long int sumBefore = 0;
+        long int sumAfter = 0;
+        // perform sort
+        if (stalinSort(numArray, &numElements, &sumBefore, &sumAfter))
+        {
+            fprintf(stderr, "Error performing Stalin sort\n");
+            break;
+        }
+
+        printf("Result of Stalin sort:\n");
+        for (int i = 0; i < numElements; i++)
+        {
+            if (i == 0)
+            {
+                printf("[%d, ", numArray[i]);
+            }
+            else if (i != numElements - 1)
+            {
+                printf("%d, ", numArray[i]);
+            }
+            else
+            {
+                printf("%d]", numArray[i]);
+            }
+        }
+        printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
+        freeArrayFromUser(&numArray);
+        break;
     default:
         break;
     }
