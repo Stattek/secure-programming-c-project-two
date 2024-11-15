@@ -10,7 +10,7 @@
 
 #define MAX_ITEMS 20       // Maximum number of items in the inventory
 #define MAX_NAME_LENGTH 19 // Max length of each item name (leaving space for null terminator)
-#define MAX_QUANTITY 255   // Max number of a single item
+#define MAX_QUANTITY 255   // Max number of single item
 
 struct Item
 {
