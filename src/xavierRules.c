@@ -12,18 +12,20 @@
 #define MAX_NAME_LENGTH 19 // Max length of each item name (leaving space for null terminator)
 #define MAX_QUANTITY 255   // Max number of single item
 
-// How to show CWE-483?? change cwe maybe
+// How to show CWE-483?? (delimitation) change cwe maybe
 
-struct Item
+typedef struct Item
 {
     char name[MAX_NAME_LENGTH + 1];
     int quantity;
-};
+} Item;
 
 char inventory[MAX_ITEMS][MAX_NAME_LENGTH + 1];
 struct Item itemList[MAX_ITEMS];
 
-int findItemIndex(char *itemName)
+Item itemList[MAX_ITEMS] = {{"sword", 2}};
+
+static int findItemIndex(char *itemName)
 {
     for (int i = 0; i < MAX_ITEMS; i++)
     {
@@ -36,12 +38,14 @@ int findItemIndex(char *itemName)
 }
 
 // ccwe 787/462
-void addItem() {
+void addItem() 
+{
     char itemName[MAX_NAME_LENGTH + 1];
+    char quantityInput[15]; // Buffer for quantity input as string
     int quantity;
 
     // Prompt the user for the item name
-    printf("Enter item name: ");
+    printf("Enter item name to add: ");
     
     // Dangerous: Using gets(), which can lead to buffer overflow if input is larger than the buffer size
     // gets(itemName);  // CWE-242: Use of inherently dangerous function
@@ -52,7 +56,10 @@ void addItem() {
 
     // Prompt the user for the quantity
     printf("Enter quantity: ");
-    scanf("%d", &quantity);
+    fgets(quantityInput, sizeof(quantityInput), stdin);
+
+    //cwe704
+    quantity = atoi(quantityInput);
 
     // Ensure the quantity does not exceed the max quantity
     if (quantity > MAX_QUANTITY)
@@ -95,54 +102,45 @@ void addItem() {
     }
 }
 
-int getItemQuantity(char *input)
+void removeItem()
 {
-    // CWE-704: Ensuring correct type conversion
-    int quantity = atoi(input);
-    
-    if (quantity < 0)
-    {
-        printf("Error: Quantity cannot be negative.\n");
-        return 0;
-    }
-    else if (quantity > MAX_QUANTITY)
-    {
-        printf("WARNING: Entered quantity exceeds maximum. Setting quantity to %d.\n", MAX_QUANTITY);
-        return MAX_QUANTITY;
-    }
-    return quantity;
-}
+    char itemName[MAX_NAME_LENGTH + 1];
+    int quantity;
 
-// CWE-478: Ensuring default case exists
-void displayMenu(int choice)
-{
-    switch (choice)
-    {
-        case 1:
-            prinf("Add Item\n");
-            break;
-        case 2:
-            printf("Remove Item\n");
-            break;
-        // add more
-    }
-}
+    // Prompt the user for the item name
+    printf("Enter item name to remove: ");
 
-int isInventoryFull()
-{
-    for (int i = 0; i < MAX_ITEMS; i++)
+    fgets(itemName, MAX_NAME_LENGTH + 1, stdin);
+    itemName[strcspn(itemName, "\n")] = '\0';
+
+    printf("Enter quantity: ");
+    scanf("%d", &quantity);
+
+    if (quantity > MAX_QUANTITY)
     {
-        if (itemList[i].name[0] == '\0')
+        printf("WARNING: Attempting to remove more items than maximum quantity. Setting quantity to %d.\n", MAX_QUANTITY);
+        quantity = MAX_QUANTITY;
+    }
+
+    int index = findItemIndex(itemName);
+
+    if (index != -1)
+    {
+        int newQuantity = itemList[index].quantity - quantity;
+
+        if (newQuantity < 0)
         {
-            return 0; // full
+            printf("WARNING: Removed more items than held. Setting quantity to zero.");
+            itemList[index].quantity = 0;
         }
+        else
+        {
+            itemList[index].quantity = newQuantity;
+        }
+        printf("Updated %s with new quantity: %d\n", itemName, itemList[index].quantity);
     }
-    return 1; // not full
+    else
+    {
+        printf("Item does not exist in inventory.");
+    }
 }
-
-/*
-void getItemName(char *name)
-{
-
-}
-*/

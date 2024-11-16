@@ -28,6 +28,9 @@ static void makeChoice(void)
         "Remove non-characters from input",
         "Validate user input",
         "Perform Stalin sort",
+        // Xavier options
+        "Add item to inventory",
+        "Remove item from inventory",
     };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
@@ -70,63 +73,80 @@ static void makeChoice(void)
     }
 
     // NOTE: add functions as cases here
+    // CWE-478: Ensuring default case exists.
     switch (userInput)
     {
     case 1:
-        removeInvalidChars();
-        break;
+        {
+            removeInvalidChars();
+            break;
+        }
     case 2:
-        Account account;
-        if (createAccount(&account))
         {
-            fprintf(stderr, "Error creating account\n");
+            Account account;
+            if (createAccount(&account))
+            {
+                fprintf(stderr, "Error creating account\n");
+                break;
+            }
+
+            if (printAccountInfo(&account))
+            {
+                fprintf(stderr, "Error printing account info\n");
+                break;
+            }
+
             break;
         }
-
-        if (printAccountInfo(&account))
-        {
-            fprintf(stderr, "Error printing account info\n");
-            break;
-        }
-
-        break;
     case 3:
-        int *numArray = NULL;
-        int numElements = NUM_SORT_ARRAY_ELEMENTS;
-        if (getArrayFromUser(&numArray, numElements))
         {
-            fprintf(stderr, "Error getting array from user\n");
+            int *numArray = NULL;
+            int numElements = NUM_SORT_ARRAY_ELEMENTS;
+            if (getArrayFromUser(&numArray, numElements))
+            {
+                fprintf(stderr, "Error getting array from user\n");
+                break;
+            }
+
+            long int sumBefore = 0;
+            long int sumAfter = 0;
+            // perform sort
+            if (stalinSort(numArray, &numElements, &sumBefore, &sumAfter))
+            {
+                fprintf(stderr, "Error performing Stalin sort\n");
+                break;
+            }
+
+            printf("Result of Stalin sort:\n");
+            for (int i = 0; i < numElements; i++)
+            {
+                if (i == 0)
+                {
+                    printf("[%d, ", numArray[i]);
+                }
+                else if (i != numElements - 1)
+                {
+                    printf("%d, ", numArray[i]);
+                }
+                else
+                {
+                    printf("%d]", numArray[i]);
+                }
+            }
+            printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
+            freeArrayFromUser(&numArray);
             break;
         }
-
-        long int sumBefore = 0;
-        long int sumAfter = 0;
-        // perform sort
-        if (stalinSort(numArray, &numElements, &sumBefore, &sumAfter))
+    case 4:
         {
-            fprintf(stderr, "Error performing Stalin sort\n");
+            addItem();
             break;
         }
-
-        printf("Result of Stalin sort:\n");
-        for (int i = 0; i < numElements; i++)
+    case 5:
         {
-            if (i == 0)
-            {
-                printf("[%d, ", numArray[i]);
-            }
-            else if (i != numElements - 1)
-            {
-                printf("%d, ", numArray[i]);
-            }
-            else
-            {
-                printf("%d]", numArray[i]);
-            }
+            removeItem();
+            break;
         }
-        printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
-        freeArrayFromUser(&numArray);
-        break;
     default:
         break;
     }
