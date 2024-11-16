@@ -1,8 +1,16 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-int main()
+#include "xavierRules.h"
+
+static void makeChoice(void)
 {
-    printf("Hello, world!");
 
+}
+
+int main(void)
+{
+    makeChoice();
     return 0;
 }

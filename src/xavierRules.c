@@ -12,6 +12,8 @@
 #define MAX_NAME_LENGTH 19 // Max length of each item name (leaving space for null terminator)
 #define MAX_QUANTITY 255   // Max number of single item
 
+// How to show CWE-483?? change cwe maybe
+
 struct Item
 {
     char name[MAX_NAME_LENGTH + 1];
@@ -111,6 +113,7 @@ int getItemQuantity(char *input)
     return quantity;
 }
 
+// CWE-478: Ensuring default case exists
 void displayMenu(int choice)
 {
     switch (choice)
@@ -137,7 +140,9 @@ int isInventoryFull()
     return 1; // not full
 }
 
+/*
 void getItemName(char *name)
 {
 
 }
+*/

@@ -15,6 +15,6 @@ void displayMenu(int choice);
 
 int isInventoryFull();
 
-void getItemName(char *name);
+//void getItemName(char *name);
 
 #endif
