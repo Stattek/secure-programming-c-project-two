@@ -9,12 +9,15 @@
 #include <errno.h>
 
 #include "davidRules.h"
+#include "waleedRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
 
 static void makeChoice(void);
 static bool isInteger(const char *str);
+static void processUserInput(void);
+static void processInput(const char *input);
 
 /**
  * @author David Slay
@@ -126,6 +129,9 @@ static void makeChoice(void)
         printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
         freeArrayFromUser(&numArray);
         break;
+    case 4:
+        processUserInput();
+        break;
     default:
         break;
     }
@@ -149,6 +155,52 @@ static bool isInteger(const char *str)
     }
 
     return output;
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Processes user input demonstrating CWEs.
+ *
+ * This function prompts the user for input and calls processInput().
+ */
+static void processUserInput(void)
+{
+    char userInput[100];
+
+    printf("Enter a number: ");
+    if (fgets(userInput, sizeof(userInput), stdin) != NULL)
+    {
+        // Remove trailing newline character
+        userInput[strcspn(userInput, "\n")] = '\0';
+
+        processInput(userInput);
+    }
+    else
+    {
+        printf("Error reading input.\n");
+    }
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Checks whether the string is an integer or not.
+ *
+ * This function demonstrates several common weaknesses such as improper validation
+ * of the specified type of input, misinterpretation of input, and insufficient
+ * type distinction.
+ *
+ * @param input The input data provided by the user.
+ */
+static void processInput(const char *input)
+{
+    // Call the CWE-1287 function
+    processInput_CWE1287(input);
+
+    // Call the CWE-115 function
+    processInput_CWE115(input);
+
+    // Call the CWE-351 function
+    typeConfusion_CWE351();
 }
 
 int main(void)
