@@ -1,0 +1,4 @@
+finalProgram
+*.o
+build/
+.vscode/
