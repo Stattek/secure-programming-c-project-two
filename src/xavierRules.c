@@ -9,12 +9,12 @@
 #include <stdlib.h>
 
 #define MAX_ITEMS 20       // Maximum number of items in the inventory
-#define MAX_NAME_LENGTH 19 // Max length of each item name (leaving space for null terminator)
+#define MAX_NAME_LENGTH 20 // Max length of each item name (leaving space for null terminator)
 #define MAX_QUANTITY 255   // Max number of single item
 
 /**
  * @brief Struct for an item that goes into player inventory.
- * 
+ *
  * char name = name of item
  * int quantity = quantity of item
  */
@@ -35,7 +35,7 @@ Item itemList[MAX_ITEMS] = {{"sword", 25}};
 /**
  * @brief Searched itemList for item and returns its position in list, if it exists in list.
  * Doesn't exist -> return -1
- * 
+ *
  * @param itemName name of item to search
  * @return int position, -1 if not found
  */
@@ -56,9 +56,9 @@ static int findItemIndex(char *itemName)
  * If item already exists, update current quantity without exceeding max quantity.
  * if item does not exist, add to inventory.
  * If no space in inventory, do not add.
- * 
+ *
  */
-void addItem(void) 
+void addItem(void)
 {
     char itemName[MAX_NAME_LENGTH + 1];
     char quantityInput[15]; // Buffer for quantity input as string
@@ -66,7 +66,7 @@ void addItem(void)
 
     // Prompt the user for the item name
     printf("Enter item name to add: ");
-    
+
     // CWE-242: Use of inherently dangerous functions
     // Dangerous: Using gets(), which can lead to buffer overflow if input is larger than the buffer size
     // gets(itemName);
@@ -74,8 +74,8 @@ void addItem(void)
     // Solution: Use fgets() to avoid overflow
     // CWE-787: Out of bounds write
     // Use fgets to ensure no OOB write occurs to itemName
-    fgets(itemName, MAX_NAME_LENGTH + 1, stdin);  // Safe input using fgets
-    itemName[strcspn(itemName, "\n")] = '\0';  // Remove newline character if present
+    fgets(itemName, MAX_NAME_LENGTH, stdin);  // Safe input using fgets
+    itemName[strcspn(itemName, "\n")] = '\0'; // Remove newline character if present
 
     // Prompt the user for the quantity
     printf("Enter quantity: ");
@@ -101,7 +101,7 @@ void addItem(void)
         // Instead of adding a new item to the list with the same name, we simply update the current item with its new quantity.
         // User attempting to determine the number of a given item will ALWAYS work.
         int newQuantity = itemList[index].quantity + quantity;
-        
+
         // Set item quantity to MAX_QUANTITY if exceeded
         if (newQuantity > MAX_QUANTITY)
         {
@@ -139,21 +139,23 @@ void addItem(void)
  * If item exists AND quantity to remove < actual quantity, update accordingly.
  * If item exists AND quantity to remove > actual quantity, set item quantity to zero.
  * If item does NOT exist, do nothing.
- * 
+ *
  */
 void removeItem(void)
 {
-    char itemName[MAX_NAME_LENGTH + 1];
+    char itemName[MAX_NAME_LENGTH + 1] = "";
     int quantity;
 
     // Prompt the user for the item name
     printf("Enter item name to remove: ");
 
-    fgets(itemName, MAX_NAME_LENGTH + 1, stdin);
+    fgets(itemName, MAX_NAME_LENGTH, stdin);
     itemName[strcspn(itemName, "\n")] = '\0';
 
+    char tempUserInput[MAX_NAME_LENGTH + 1] = "";
     printf("Enter quantity: ");
-    scanf("%d", &quantity);
+    fgets(tempUserInput, MAX_NAME_LENGTH, stdin);
+    quantity = atoi(tempUserInput);
 
     // CWE-483: Ensure correct block delimitation
     // Code commented out below would result in quantity being set to MAX_QUANTITY no matter what
@@ -178,7 +180,7 @@ void removeItem(void)
 
         if (newQuantity < 0)
         {
-            printf("WARNING: Removed more items than held. Setting quantity to zero.");
+            printf("WARNING: Removed more items than held. Setting quantity to zero.\n");
             itemList[index].quantity = 0;
         }
         else
@@ -189,6 +191,6 @@ void removeItem(void)
     }
     else
     {
-        printf("Item does not exist in inventory.");
+        printf("Item does not exist in inventory.\n");
     }
 }
