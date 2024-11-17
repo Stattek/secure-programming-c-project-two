@@ -139,11 +139,13 @@ static void makeChoice(void)
         }
     case 4:
         {
+            // Add item to inventory
             addItem();
             break;
         }
     case 5:
         {
+            // Remove item from inventory
             removeItem();
             break;
         }
