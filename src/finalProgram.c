@@ -10,6 +10,7 @@
 
 #include "davidRules.h"
 #include "xavierRules.h"
+#include "aayaanCWE.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
@@ -32,6 +33,8 @@ static void makeChoice(void)
         // Xavier options
         "Add item to inventory",
         "Remove item from inventory",
+        // Aayaan options
+        "Evaluate the vocabulary of a file"
     };
 
     bool isUserContinuing = true;
@@ -159,6 +162,12 @@ static void makeChoice(void)
             // Remove item from inventory
             removeItem();
             break;
+        }
+        case 6:
+        {
+            char fileNameEp[BUFFER_SIZE] = "";
+            getFileName(fileNameEp, BUFFER_SIZE);
+            countUniqueWords(fileNameEp);
         }
         default:
             break;
