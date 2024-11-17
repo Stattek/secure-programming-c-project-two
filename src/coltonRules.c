@@ -116,15 +116,20 @@ int division(int currentTotal)
     return currentTotal;
 }
 
+/**
+ * @brief a function that takes an inital value and multiplies by a power of two based on user input
+ * @param int of current value
+ * @return int
+ */
 int multiplyByPowerOfTwo(int currentTotal){
     int powerOfTwo;
     printf("Enter X to multiply current total by 2^x.\n>> ");
     scanf("%d", &powerOfTwo);
 
-    if(powerOfTwo >= (sizeof(currentTotal) * 8)){
+    if(powerOfTwo >= (sizeof(currentTotal) * 8)){ //CWE 1335 Incorrect Bitwise Shift of Integer
         printf("Error: Integer overflow, returning without multiplying by 2^%d.\n", powerOfTwo);
         return currentTotal;
-    }else if(powerOfTwo < 0){ // CWE 1335 Incorrect Bitwise shift of Integer
+    }else if(powerOfTwo < 0){ // CWE 1335 Incorrect Bitwise Shift of Integer
         printf("Error: Incorrect Bitwise Shift returning without multiplying by 2^%d\n",powerOfTwo);
         return currentTotal;
     }else{
