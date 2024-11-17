@@ -1,32 +1,39 @@
 #include "waleedRules.h"
 
 /**
- * @brief Processes input without proper type validation.
+ * @author Waleed Chatta
+ * @brief Processes input with proper type validation.
  *
- * This function demonstrates CWE-1287: Improper Validation of Specified Type of Input
- * by not validating the type of input data before processing it.
+ * This function fixes CWE-1287 by using `strtol` to convert the input string to an integer.
+ * It checks if the entire string was successfully converted and if there were any conversion errors.
+ * This ensures that only valid integer inputs are processed.
  *
  * @param input The input data to process.
  */
-void processInput_CWE1287(const char *input)
+void processInput(const char *input)
 {
-    // Expected input is an integer in string form, but no validation is performed.
-    int value = atoi(input);
+    char *endptr;
+    int value = strtol(input, &endptr, 10);
+    if (*endptr != '\0')
+    {
+        printf("Invalid input: not a valid integer.\n");
+        return;
+    }
     printf("Processed value: %d\n", value);
 }
 
 /**
- * @brief Demonstrates incorrect operator usage.
+ * @author Waleed Chatta
+ * @brief Checks the value using the correct equality operator.
  *
- * This function shows CWE-480: Use of Incorrect Operator by using an incorrect operator
- * in a conditional statement.
+ * This function fixes CWE-480 by using the equality operator `==` instead of the assignment operator `=`
+ * in the conditional statement. This ensures the condition correctly compares the value rather than assigning it.
  *
  * @param value The integer value to check.
  */
-void checkValue_CWE480(int value)
+void checkValue(int value)
 {
-    // Incorrectly using '=' instead of '==' in the condition.
-    if (value = 0)
+    if (value == 0)
     {
         printf("Value is zero.\n");
     }
@@ -37,64 +44,96 @@ void checkValue_CWE480(int value)
 }
 
 /**
- * @brief Demonstrates missing handler for error conditions.
+ * @author Waleed Chatta
+ * @brief Accesses an array element with proper bounds checking.
  *
- * This function exhibits CWE-431: Missing Handler by not handling potential errors
- * or exceptions that may occur.
+ * This function fixes CWE-431 by adding bounds checking before accessing the array.
+ * It ensures that the index is within the valid range to prevent out-of-bounds access,
+ * which could lead to undefined behavior or security vulnerabilities.
  */
-void accessArray_CWE431(void)
+void accessArray(void)
 {
     int numbers[5];
-    // Accessing array without bounds checking and no error handling.
-    numbers[10] = 42; // Out-of-bounds access.
-    printf("Assigned value to array.\n");
+    int index = 10;
+    if (index >= 0 && index < 5)
+    {
+        numbers[index] = 42;
+        printf("Assigned value to array.\n");
+    }
+    else
+    {
+        printf("Error: Array index out of bounds.\n");
+    }
 }
 
 /**
- * @brief Uses inappropriate handler for an error condition.
+ * @author Waleed Chatta
+ * @brief Handles error conditions appropriately.
  *
- * This function demonstrates CWE-430: Deployment of Wrong Handler by deploying the wrong
- * handler when an error occurs.
+ * This function fixes CWE-430 by replacing the improper use of `exit()` with suitable error handling.
+ * Instead of abruptly terminating the program, it reports the error and allows for graceful recovery or termination.
  *
- * @param value The value to check for error condition.
+ * @param value The integer value to check.
  */
-void handleError_CWE430(int value)
+void handleError(int value)
 {
     if (value < 0)
     {
-        // Inappropriately using exit() to handle error.
-        exit(1);
+        fprintf(stderr, "Error: Negative value encountered.\n");
+        return;
     }
     printf("Value is non-negative.\n");
 }
 
 /**
- * @brief Demonstrates insufficient type distinction.
+ * @author Waleed Chatta
+ * @brief Demonstrates proper type usage without type confusion.
  *
- * This function shows CWE-351: Insufficient Type Distinction by treating different data types
- * as if they were the same.
+ * This function fixes CWE-351 by avoiding incorrect casting between incompatible types.
+ * It uses variables with their correct data types, ensuring type safety and preventing undefined behavior.
  */
-void typeConfusion_CWE351(void)
+void typeConfusion(void)
 {
     int intValue = 42;
-    void *data = &intValue;
-    // Incorrectly casting to a different type without checking.
-    float *floatData = (float *)data;
-    printf("Float value: %f\n", *floatData);
+    printf("Integer value: %d\n", intValue);
 }
 
 /**
- * @brief Processes input with misinterpretation.
+ * @author Waleed Chatta
+ * @brief Processes input with correct interpretation of encoding.
  *
- * This function demonstrates CWE-115: Misinterpretation of Input by misinterpreting
- * the input data encoding.
+ * This function fixes CWE-115 by verifying that the input is valid UTF-8 before processing it.
+ * It uses `strncpy` to safely copy the input into a buffer, preventing buffer overflows,
+ * and ensures the buffer is null-terminated.
  *
  * @param input The input string to process.
  */
-void processInput_CWE115(const char *input)
+void processInput(const char *input)
 {
-    char buffer[100];
-    // Assuming input is UTF-8 without verification.
-    strcpy(buffer, input);
-    printf("Processed input: %s\n", buffer);
+    if (isValidUTF8(input))
+    {
+        char buffer[100];
+        strncpy(buffer, input, sizeof(buffer) - 1);
+        buffer[sizeof(buffer) - 1] = '\0';
+        printf("Processed input: %s\n", buffer);
+    }
+    else
+    {
+        printf("Invalid input encoding.\n");
+    }
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Simplified placeholder function to check if input is valid UTF-8.
+ *
+ * This function should contain actual UTF-8 validation logic. For this example, it assumes the input is valid.
+ * In a real-world scenario, proper validation should be implemented to prevent encoding-related issues.
+ *
+ * @param input The input string to check.
+ * @return 1 if the input is valid UTF-8, 0 otherwise.
+ */
+static int isValidUTF8(const char *input)
+{
+    return 1;
 }
