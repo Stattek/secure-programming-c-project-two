@@ -121,7 +121,7 @@ int multiplyByPowerOfTwo(int currentTotal){
     printf("Enter X to multiply current total by 2^x.\n>> ");
     scanf("%d", &powerOfTwo);
 
-    if(currentTotal > INT_MAX / 2){
+    if(powerOfTwo >= (sizeof(currentTotal) * 8)){
         printf("Error: Integer overflow, returning without multiplying by 2^%d.\n", powerOfTwo);
         return currentTotal;
     }else if(powerOfTwo < 0){ // CWE 1335 Incorrect Bitwise shift of Integer
