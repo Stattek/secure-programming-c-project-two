@@ -25,63 +25,71 @@ static void makeChoice(void)
 {
     // NOTE: new options are added here
     static const char *options[] = {
+        "Quit",
         "Remove non-characters from input",
         "Validate user input",
-        "Perform Stalin sort",
+        "Perform Stalin/Drop sort",
         // Xavier options
         "Add item to inventory",
         "Remove item from inventory",
     };
-    printf("Choose an option:\n");
-    int optionsLength = sizeof(options) / sizeof(options[0]);
-    for (int i = 0; i < optionsLength; i++)
-    {
-        printf("\t%d. %s\n", (i + 1), options[i]);
-    }
 
-    bool validInput = false;
-
-    char buf[INPUT_BUFFER_SIZE] = ""; // +1 for null-terminating char
-    while (!validInput)
+    bool isUserContinuing = true;
+    while (isUserContinuing)
     {
-        printf(">> ");
-        fgets(buf, INPUT_BUFFER_SIZE, stdin);
-        int lastChar = strlen(buf) - 1;
-        if (buf[lastChar] == '\n')
+        printf("\nChoose an option:\n");
+        int optionsLength = sizeof(options) / sizeof(options[0]);
+        for (int i = 0; i < optionsLength; i++)
         {
-            // make this the new end of the string if it's a newline char
-            buf[lastChar] = 0;
+            printf("\t%d. %s\n", i, options[i]);
         }
 
-        if (isInteger(buf))
-        {
-            validInput = true;
-        }
-        else
-        {
-            // invalid, clear buffer
-            memset(buf, 0, INPUT_BUFFER_SIZE);
-        }
-    }
+        bool validInput = false;
 
-    long int userInput = 0;
-    errno = 0;
-    userInput = strtol(buf, NULL, 10);
-    if (errno)
-    {
-        fprintf(stderr, "Error converting user input to long\n");
-    }
+        char buf[INPUT_BUFFER_SIZE] = ""; // +1 for null-terminating char
+        while (!validInput)
+        {
+            printf(">> ");
+            fgets(buf, INPUT_BUFFER_SIZE, stdin);
+            int lastChar = strlen(buf) - 1;
+            if (buf[lastChar] == '\n')
+            {
+                // make this the new end of the string if it's a newline char
+                buf[lastChar] = 0;
+            }
 
-    // NOTE: add functions as cases here
-    // CWE-478: Ensuring default case exists.
-    switch (userInput)
-    {
-    case 1:
+            if (isInteger(buf))
+            {
+                validInput = true;
+            }
+            else
+            {
+                // invalid, clear buffer
+                memset(buf, 0, INPUT_BUFFER_SIZE);
+            }
+        }
+
+        long int userInput = 0;
+        errno = 0;
+        userInput = strtol(buf, NULL, 10);
+        if (errno)
+        {
+            fprintf(stderr, "Error converting user input to long\n");
+        }
+
+        // NOTE: add functions as cases here
+        // CWE-478: Ensuring default case exists.
+        switch (userInput)
+        {
+        case 0:
+            isUserContinuing = false;
+            break;
+        case 1:
         {
             removeInvalidChars();
             break;
         }
-    case 2:
+        case 2:
         {
             Account account;
             if (createAccount(&account))
@@ -98,7 +106,7 @@ static void makeChoice(void)
 
             break;
         }
-    case 3:
+        case 3:
         {
             int *numArray = NULL;
             int numElements = NUM_SORT_ARRAY_ELEMENTS;
@@ -117,40 +125,44 @@ static void makeChoice(void)
                 break;
             }
 
-            printf("Result of Stalin sort:\n");
+            printf("Result of Stalin sort:\n\t");
             for (int i = 0; i < numElements; i++)
             {
                 if (i == 0)
                 {
-                    printf("[%d, ", numArray[i]);
+                    printf("[");
                 }
-                else if (i != numElements - 1)
+
+                printf("%d", numArray[i]);
+
+                if (i < numElements - 1)
                 {
-                    printf("%d, ", numArray[i]);
+                    printf(", ");
                 }
                 else
                 {
-                    printf("%d]", numArray[i]);
+                    printf("]");
                 }
             }
             printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
             freeArrayFromUser(&numArray);
             break;
         }
-    case 4:
+        case 4:
         {
             // Add item to inventory
             addItem();
             break;
         }
-    case 5:
+        case 5:
         {
             // Remove item from inventory
             removeItem();
             break;
         }
-    default:
-        break;
+        default:
+            break;
+        }
     }
 }
 
