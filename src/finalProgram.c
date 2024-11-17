@@ -10,12 +10,21 @@
 
 #include "davidRules.h"
 #include "xavierRules.h"
+#include "aayaanCWE.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
 
 static void makeChoice(void);
 static bool isInteger(const char *str);
+static void getFileName(char *fileName, int fileNameLen);
+
+static void getFileName(char *fileName, int fileNameLen)
+{
+    printf("Enter file name:\n>> ");
+    fgets(fileName, fileNameLen, stdin);
+    trimUserInput(fileName);
+}
 
 /**
  * @author David Slay
@@ -32,7 +41,8 @@ static void makeChoice(void)
         // Xavier options
         "Add item to inventory",
         "Remove item from inventory",
-    };
+        // Aayaan options
+        "Evaluate the vocabulary of a file"};
 
     bool isUserContinuing = true;
     while (isUserContinuing)
@@ -159,6 +169,13 @@ static void makeChoice(void)
             // Remove item from inventory
             removeItem();
             break;
+        }
+        case 6:
+        {
+            char fileName[INPUT_BUFFER_SIZE] = "";
+            getFileName(fileName, INPUT_BUFFER_SIZE);
+
+            countUniqueWords(fileName);
         }
         default:
             break;
