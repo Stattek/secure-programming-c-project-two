@@ -1,10 +1,6 @@
-.PHONY: debug clean run
-
-setup:
-	@ if ! test -d build/; then mkdir build; fi
+.PHONY: debug clean run setup build
 
 build/finalProgram: build/finalProgram.o build/davidRules.o
-	$(MAKE) setup
 	gcc -o finalProgram build/finalProgram.o build/davidRules.o
 	mv finalProgram build/
 
@@ -15,6 +11,13 @@ build/finalProgram.o: finalProgram.c
 build/davidRules.o: davidRules.c
 	gcc -c davidRules.c
 	mv davidRules.o build/
+
+build:
+	$(MAKE) setup
+	$(MAKE) build/finalProgram
+
+setup:
+	@ if ! test -d build/; then mkdir build; fi
 
 debug:
 	$(MAKE) setup
