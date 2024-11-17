@@ -9,11 +9,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-void processInput(const char *input);
+void processIntegerInput(const char *input);
 void checkValue(int value);
 void accessArray(void);
 void handleError(int value);
 void typeConfusion(void);
-void processInput(const char *input);
+void processEncodedInput(const char *input);
 
 #endif

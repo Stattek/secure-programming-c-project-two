@@ -34,6 +34,8 @@ static void makeChoice(void)
         // Xavier options
         "Add item to inventory",
         "Remove item from inventory",
+        // Waleed options
+        "Perform input validation",
     };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
@@ -218,10 +220,10 @@ static void processUserInput(void)
 static void processInput(const char *input)
 {
     // Call the fixed processInputFixed function (CWE-1287)
-    processInputFixed(input);
+    processIntegerInput(input);
 
     // Call the fixed processInputWithEncoding function (CWE-115)
-    processInputWithEncoding(input);
+    processEncodedInput(input);
 
     // Call the fixed typeConfusion function (CWE-351)
     typeConfusion();

@@ -10,7 +10,7 @@
  *
  * @param input The input data to process.
  */
-void processInput(const char *input)
+void processIntegerInput(const char *input)
 {
     char *endptr;
     int value = strtol(input, &endptr, 10);
@@ -100,6 +100,21 @@ void typeConfusion(void)
 
 /**
  * @author Waleed Chatta
+ * @brief Simplified placeholder function to check if input is valid UTF-8.
+ *
+ * This function should contain actual UTF-8 validation logic. For this example, it assumes the input is valid.
+ * In a real-world scenario, proper validation should be implemented to prevent encoding-related issues.
+ *
+ * @param input The input string to check.
+ * @return 1 if the input is valid UTF-8, 0 otherwise.
+ */
+static int isValidUTF8(const char *input)
+{
+    return 1;
+}
+
+/**
+ * @author Waleed Chatta
  * @brief Processes input with correct interpretation of encoding.
  *
  * This function fixes CWE-115 by verifying that the input is valid UTF-8 before processing it.
@@ -108,7 +123,7 @@ void typeConfusion(void)
  *
  * @param input The input string to process.
  */
-void processInput(const char *input)
+void processEncodedInput(const char *input)
 {
     if (isValidUTF8(input))
     {
@@ -121,19 +136,4 @@ void processInput(const char *input)
     {
         printf("Invalid input encoding.\n");
     }
-}
-
-/**
- * @author Waleed Chatta
- * @brief Simplified placeholder function to check if input is valid UTF-8.
- *
- * This function should contain actual UTF-8 validation logic. For this example, it assumes the input is valid.
- * In a real-world scenario, proper validation should be implemented to prevent encoding-related issues.
- *
- * @param input The input string to check.
- * @return 1 if the input is valid UTF-8, 0 otherwise.
- */
-static int isValidUTF8(const char *input)
-{
-    return 1;
 }
