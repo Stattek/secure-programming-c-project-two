@@ -11,7 +11,7 @@
 
 void processIntegerInput(const char *input);
 void checkValue(int value);
-void accessArray(void);
+void accessArray(int value);
 void handleError(int value);
 void typeConfusion(void);
 void validateAlphanumericInput(const char *input);

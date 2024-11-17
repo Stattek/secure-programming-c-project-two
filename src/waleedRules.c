@@ -55,14 +55,13 @@ void checkValue(int value)
  * It ensures that the index is within the valid range to prevent out-of-bounds access,
  * which could lead to undefined behavior or security vulnerabilities.
  */
-void accessArray(void)
+void accessArray(int index)
 {
     int numbers[ARRAY_LENGTH];
-    int index = 10;
     if (index >= 0 && index < ARRAY_LENGTH)
     {
         numbers[index] = 42;
-        printf("Assigned value to array.\n");
+        printf("Assigned a value to array.\n");
     }
     else
     {

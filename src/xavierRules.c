@@ -65,7 +65,7 @@ void addItem(void)
     int quantity;
 
     // Prompt the user for the item name
-    printf("Enter item name to add: ");
+    printf("Enter item name to add:\n>> ");
 
     // CWE-242: Use of inherently dangerous functions
     // Dangerous: Using gets(), which can lead to buffer overflow if input is larger than the buffer size
@@ -78,7 +78,7 @@ void addItem(void)
     itemName[strcspn(itemName, "\n")] = '\0'; // Remove newline character if present
 
     // Prompt the user for the quantity
-    printf("Enter quantity: ");
+    printf("Enter quantity:\n>> ");
     fgets(quantityInput, sizeof(quantityInput), stdin);
 
     // CWE-704: Ensure correct type conversion
@@ -147,13 +147,13 @@ void removeItem(void)
     int quantity;
 
     // Prompt the user for the item name
-    printf("Enter item name to remove: ");
+    printf("Enter item name to remove:\n>> ");
 
     fgets(itemName, MAX_NAME_LENGTH, stdin);
     itemName[strcspn(itemName, "\n")] = '\0';
 
     char tempUserInput[MAX_NAME_LENGTH + 1] = "";
-    printf("Enter quantity: ");
+    printf("Enter quantity:\n>> ");
     fgets(tempUserInput, MAX_NAME_LENGTH, stdin);
     quantity = atoi(tempUserInput);
 

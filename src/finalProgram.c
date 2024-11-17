@@ -225,7 +225,7 @@ static void processUserInput(void)
 {
     char userInput[INPUT_BUFFER_SIZE];
 
-    printf("Enter a number: ");
+    printf("Enter a number:\n>> ");
     if (fgets(userInput, sizeof(userInput), stdin) != NULL)
     {
         // Remove trailing newline character
@@ -272,7 +272,7 @@ static void processInput(const char *input)
     checkValue((int)value);
 
     // Call the fixed accessArray function (CWE-431)
-    accessArray();
+    accessArray((int)value);
 
     // Call the fixed handleError function (CWE-430)
     handleError((int)value);
