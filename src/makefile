@@ -1,7 +1,13 @@
 .PHONY: debug clean run setup build
 
-build/finalProgram: build/finalProgram.o build/davidRules.o
-	gcc -o finalProgram build/finalProgram.o build/davidRules.o
+OBJECT_LIST=\
+build/finalProgram.o \
+build/davidRules.o \
+build/xavierRules.o
+
+build/finalProgram: $(OBJECT_LIST)
+	@ if ! test -d build/; then mkdir build; fi
+	gcc -o finalProgram $(OBJECT_LIST)
 	mv finalProgram build/
 
 build/finalProgram.o: finalProgram.c
@@ -11,6 +17,10 @@ build/finalProgram.o: finalProgram.c
 build/davidRules.o: davidRules.c
 	gcc -c davidRules.c
 	mv davidRules.o build/
+
+build/xavierRules.o: xavierRules.c
+	gcc -c xavierRules.c
+	mv xavierRules.o build/
 
 build:
 	$(MAKE) setup
