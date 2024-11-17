@@ -244,7 +244,7 @@ static void setContinueProcessingFlag(bool value)
  *
  * @param userStr The user input string.
  */
-static void trimUserInput(char *userStr)
+void trimUserInput(char *userStr)
 {
     int userStrLen = strlen(userStr);
     // get rid of trailing endline character
