@@ -219,10 +219,10 @@ static void processUserInput(void)
  */
 static void processInput(const char *input)
 {
-    // Call the fixed processInputFixed function (CWE-1287)
+    // Call the fixed processIntegerInput function (CWE-1287)
     processIntegerInput(input);
 
-    // Call the fixed processInputWithEncoding function (CWE-115)
+    // Call the fixed processEncodedInput function (CWE-115)
     processEncodedInput(input);
 
     // Call the fixed typeConfusion function (CWE-351)
@@ -234,7 +234,7 @@ static void processInput(const char *input)
     long value = strtol(input, &endptr, 10);
     if (errno != 0 || *endptr != '\0')
     {
-        // Error already reported in processInputFixed
+        // Error already reported in processIntegerInput
         return;
     }
 
