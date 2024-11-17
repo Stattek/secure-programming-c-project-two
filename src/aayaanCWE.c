@@ -178,10 +178,3 @@ void countUniqueWords(const char *filename)
     }
     free(finalWordData.words);
 }
-
-int main()
-{
-    const char *filename = "sonnet.txt";
-    countUniqueWords(filename);
-    return 0;
-}
