@@ -30,7 +30,7 @@ struct Item itemList[MAX_ITEMS];
 
 // Setting element of itemList to Item name sword, quantity 2
 // Use this for functionality showcase
-Item itemList[MAX_ITEMS] = {{"sword", 2}};
+Item itemList[MAX_ITEMS] = {{"sword", 25}};
 
 /**
  * @brief Searched itemList for item and returns its position in list, if it exists in list.
