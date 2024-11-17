@@ -1,4 +1,6 @@
 #include "waleedRules.h"
+#include <errno.h>
+#include <ctype.h>
 
 /**
  * @author Waleed Chatta
@@ -99,41 +101,23 @@ void typeConfusion(void)
 }
 
 /**
- * @author Waleed Chatta
- * @brief Simplified placeholder function to check if input is valid UTF-8.
+ * @Waleed Chatta
+ * @brief Validates that the input contains only alphanumeric characters.
  *
- * This function should contain actual UTF-8 validation logic. For this example, it assumes the input is valid.
- * In a real-world scenario, proper validation should be implemented to prevent encoding-related issues.
+ * This function fixes CWE-115 by verifying that the input consists only of expected characters.
+ * It rejects any input containing special characters or non-alphanumeric symbols.
  *
- * @param input The input string to check.
- * @return 1 if the input is valid UTF-8, 0 otherwise.
+ * @param input The input string to validate.
  */
-static int isValidUTF8(const char *input)
+void validateAlphanumericInput(const char *input)
 {
-    return 1;
-}
-
-/**
- * @author Waleed Chatta
- * @brief Processes input with correct interpretation of encoding.
- *
- * This function fixes CWE-115 by verifying that the input is valid UTF-8 before processing it.
- * It uses `strncpy` to safely copy the input into a buffer, preventing buffer overflows,
- * and ensures the buffer is null-terminated.
- *
- * @param input The input string to process.
- */
-void processEncodedInput(const char *input)
-{
-    if (isValidUTF8(input))
+    for (size_t i = 0; i < strlen(input); i++)
     {
-        char buffer[100];
-        strncpy(buffer, input, sizeof(buffer) - 1);
-        buffer[sizeof(buffer) - 1] = '\0';
-        printf("Processed input: %s\n", buffer);
+        if (!isalnum((unsigned char)input[i]))
+        {
+            fprintf(stderr, "Invalid input: contains special characters.\n");
+            return;
+        }
     }
-    else
-    {
-        printf("Invalid input encoding.\n");
-    }
+    printf("Validated input: %s\n", input);
 }

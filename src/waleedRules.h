@@ -14,6 +14,6 @@ void checkValue(int value);
 void accessArray(void);
 void handleError(int value);
 void typeConfusion(void);
-void processEncodedInput(const char *input);
+void validateAlphanumericInput(const char *input);
 
 #endif

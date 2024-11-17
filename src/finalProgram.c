@@ -222,8 +222,8 @@ static void processInput(const char *input)
     // Call the fixed processIntegerInput function (CWE-1287)
     processIntegerInput(input);
 
-    // Call the fixed processEncodedInput function (CWE-115)
-    processEncodedInput(input);
+    // Call the fixed validateAlphanumericInput function (CWE-115)
+    validateAlphanumericInput(input);
 
     // Call the fixed typeConfusion function (CWE-351)
     typeConfusion();
