@@ -9,6 +9,7 @@
 #include <errno.h>
 
 #include "davidRules.h"
+#include "coltonRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
@@ -27,6 +28,7 @@ static void makeChoice(void)
         "Remove non-characters from input",
         "Validate user input",
         "Perform Stalin sort",
+        "Use Integer Calculator",
     };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
@@ -125,6 +127,45 @@ static void makeChoice(void)
         }
         printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
         freeArrayFromUser(&numArray);
+        break;
+    case 4:
+        char operation[20];
+        char continueAnswer;
+
+        int currentTotal = 0;
+        printf("Enter number to start:\n>> ");
+        scanf("%d", &currentTotal);
+        do
+        {
+            printf("Enter operation (-,+,*,/,^):\n>> ");
+            scanf("%s", operation);
+            if (strcmp(operation, "-") == 0)
+            {
+                currentTotal = subtraction(currentTotal);
+            }
+            else if (strcmp(operation, "+") == 0)
+            {
+                currentTotal = addition(currentTotal);
+            }
+            else if (strcmp(operation, "*") == 0)
+            {
+                currentTotal = multiplication(currentTotal);
+            }
+            else if (strcmp(operation, "/") == 0)
+            {
+                currentTotal = division(currentTotal);
+            }else if(strcmp(operation, "^") == 0){
+                currentTotal = multiplyByPowerOfTwo(currentTotal);
+            }
+            else
+            {
+                printf("Incorrect input try again.\n");
+            }
+            printf("Current number: %d\n", currentTotal);
+            printf("Do you want to continue (Y/N)?:\n>> ");
+            scanf(" %c", &continueAnswer);
+        } while (continueAnswer != 'N' && continueAnswer != 'n');
+        printf("Final value is: %d\n", currentTotal);
         break;
     default:
         break;
