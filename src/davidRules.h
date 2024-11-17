@@ -20,5 +20,6 @@ bool printAccountInfo(Account *account);
 bool stalinSort(int *numArray, int *numElements, long int *beforeSortSumOut, long int *afterSortSumOut);
 bool getArrayFromUser(int **array, int numElements);
 void freeArrayFromUser(int **array);
+void trimUserInput(char *userStr);
 
 #endif

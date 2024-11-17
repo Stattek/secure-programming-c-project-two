@@ -3,7 +3,8 @@
 OBJECT_LIST=\
 build/finalProgram.o \
 build/davidRules.o \
-build/xavierRules.o
+build/xavierRules.o \
+build/aayaanCWE.o
 
 build/finalProgram: $(OBJECT_LIST)
 	@ if ! test -d build/; then mkdir build; fi
@@ -21,6 +22,10 @@ build/davidRules.o: davidRules.c
 build/xavierRules.o: xavierRules.c
 	gcc -c xavierRules.c
 	mv xavierRules.o build/
+
+build/aayaanCWE.o: aayaanCWE.c
+	gcc -c aayaanCWE.c
+	mv aayaanCWE.o build/
 
 build:
 	$(MAKE) setup

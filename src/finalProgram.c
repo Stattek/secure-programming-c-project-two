@@ -17,6 +17,14 @@
 
 static void makeChoice(void);
 static bool isInteger(const char *str);
+static void getFileName(char *fileName, int fileNameLen);
+
+static void getFileName(char *fileName, int fileNameLen)
+{
+    printf("Enter file name:\n>> ");
+    fgets(fileName, fileNameLen, stdin);
+    trimUserInput(fileName);
+}
 
 /**
  * @author David Slay
@@ -34,8 +42,7 @@ static void makeChoice(void)
         "Add item to inventory",
         "Remove item from inventory",
         // Aayaan options
-        "Evaluate the vocabulary of a file"
-    };
+        "Evaluate the vocabulary of a file"};
 
     bool isUserContinuing = true;
     while (isUserContinuing)
@@ -165,9 +172,10 @@ static void makeChoice(void)
         }
         case 6:
         {
-            char fileNameEp[BUFFER_SIZE] = "";
-            getFileName(fileNameEp, BUFFER_SIZE);
-            countUniqueWords(fileNameEp);
+            char fileName[INPUT_BUFFER_SIZE] = "";
+            getFileName(fileName, INPUT_BUFFER_SIZE);
+
+            countUniqueWords(fileName);
         }
         default:
             break;
