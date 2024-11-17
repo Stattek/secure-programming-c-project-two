@@ -58,7 +58,7 @@ static int findItemIndex(char *itemName)
  * If no space in inventory, do not add.
  * 
  */
-void addItem() 
+void addItem(void) 
 {
     char itemName[MAX_NAME_LENGTH + 1];
     char quantityInput[15]; // Buffer for quantity input as string
@@ -141,7 +141,7 @@ void addItem()
  * If item does NOT exist, do nothing.
  * 
  */
-void removeItem()
+void removeItem(void)
 {
     char itemName[MAX_NAME_LENGTH + 1];
     int quantity;
