@@ -6,6 +6,7 @@
 #ifndef COLTONRULES_H
 #define COLTONRULES_H
 
+void runIntCalculator();
 
 int addition(int firstNumber, int secondNumber);
 int subtraction(int firstNumber, int secondNumber);

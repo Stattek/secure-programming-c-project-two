@@ -8,6 +8,43 @@
 #include <limits.h>
 
 #include "coltonRules.h"
+#define INPUT_BUFFER_SIZE 1024
+
+/**
+ * @brief a function runs the calculator to move all functionality to this file
+ */
+void runIntCalculator(){
+    char buffer[INPUT_BUFFER_SIZE + 1];
+    char operation[INPUT_BUFFER_SIZE + 1];
+    int firstNumber;
+    int secondNumber;
+    int finalTotal = 0;
+    printf("Enter number to start:\n>> ");
+    fgets(buffer, INPUT_BUFFER_SIZE, stdin);
+    firstNumber = atoi(buffer);
+    printf("Enter operation wanted, options +,-,*,/,^ (for power of 2 multiplication):\n>>");
+    fgets(operation, INPUT_BUFFER_SIZE, stdin);
+    printf("Enter second number to use for operation:\n>>");
+    fgets(buffer, INPUT_BUFFER_SIZE, stdin);
+    secondNumber = atoi(buffer);
+
+    if(strcmp(operation, "+") == 0){
+        finalTotal = addition(firstNumber, secondNumber);
+    }else if(strcmp(operation, "-") == 0){
+        finalTotal = subtraction(firstNumber, secondNumber);
+    }else if(strcmp(operation,"*") == 0){
+        finalTotal = multiplication(firstNumber, secondNumber);
+    }else if(strcmp(operation, "/") == 0){
+        finalTotal = division(firstNumber, secondNumber);
+    }else if(strcmp(operation,"^") == 0){
+        finalTotal = multiplyByPowerOfTwo(firstNumber, secondNumber);
+    }else{
+        printf("Incorrect operation input.\n");
+    }
+    printf("Final value is: %d\n", finalTotal);
+}
+
+
 
 /**
  * @brief a function that takes 2 integers that will be added to each other if it would not result in an integer overflow

@@ -193,35 +193,9 @@ static void makeChoice(void)
             break;
         }
         case 8:
-        {   char buffer[INPUT_BUFFER_SIZE + 1];
-            char operation[INPUT_BUFFER_SIZE + 1];
-            int firstNumber;
-            int secondNumber;
-            int finalTotal = 0;
-            printf("Enter number to start:\n>> ");
-            fgets(buffer, INPUT_BUFFER_SIZE, stdin);
-            firstNumber = atoi(buffer);
-            printf("Enter operation wanted, options +,-,*,/,^ (for power of 2 multiplication):\n>>");
-            fgets(operation, INPUT_BUFFER_SIZE, stdin);
-            printf("Enter second number to use for operation:\n>>");
-            fgets(buffer, INPUT_BUFFER_SIZE, stdin);
-            secondNumber = atoi(buffer);
+        {   
 
-            if(strcmp(operation, "+") == 0){
-                finalTotal = addition(firstNumber, secondNumber);
-            }else if(strcmp(operation, "-") == 0){
-                finalTotal = subtraction(firstNumber, seconNumber);
-            }else if(strcmp(operation,"*") == 0){
-                finalTotal = multiplication(firstNumber, secondNumber);
-            }else if(strcmp(operation, "/") == 0){
-                finalTotal = division(firstNumber, secondNumber);
-            }else if(strcmp(operation,"^") == 0){
-                finalTotal = multiplyByPowerOfTwo(firstNumber, secondNumber);
-            }else{
-                printf("Incorrect operation input.\n");
-                break;
-            }
-            printf("Final value is: %d\n", finalTotal);
+            RunIntCalculator();
             break;
         }
         default:
