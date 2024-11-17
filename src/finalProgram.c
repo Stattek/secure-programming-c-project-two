@@ -9,6 +9,7 @@
 #include <errno.h>
 
 #include "davidRules.h"
+#include "xavierRules.h"
 #include "waleedRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
@@ -30,6 +31,9 @@ static void makeChoice(void)
         "Remove non-characters from input",
         "Validate user input",
         "Perform Stalin sort",
+        // Xavier options
+        "Add item to inventory",
+        "Remove item from inventory",
     };
     printf("Choose an option:\n");
     int optionsLength = sizeof(options) / sizeof(options[0]);
@@ -72,12 +76,16 @@ static void makeChoice(void)
     }
 
     // NOTE: add functions as cases here
+    // CWE-478: Ensuring default case exists.
     switch (userInput)
     {
     case 1:
+    {
         removeInvalidChars();
         break;
+    }
     case 2:
+    {
         Account account;
         if (createAccount(&account))
         {
@@ -92,7 +100,9 @@ static void makeChoice(void)
         }
 
         break;
+    }
     case 3:
+    {
         int *numArray = NULL;
         int numElements = NUM_SORT_ARRAY_ELEMENTS;
         if (getArrayFromUser(&numArray, numElements))
@@ -129,9 +139,24 @@ static void makeChoice(void)
         printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
         freeArrayFromUser(&numArray);
         break;
+    }
     case 4:
+    {
+        // Add item to inventory
+        addItem();
+        break;
+    }
+    case 5:
+    {
+        // Remove item from inventory
+        removeItem();
+        break;
+    }
+    case 6:
+    {
         processUserInput();
         break;
+    }
     default:
         break;
     }
