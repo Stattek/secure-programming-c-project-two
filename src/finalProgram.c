@@ -9,6 +9,9 @@
 #include <errno.h>
 
 #include "davidRules.h"
+#include "xavierRules.h"
+#include "aayaanCWE.h"
+#include "waleedRules.h"
 #include "coltonRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
@@ -16,6 +19,16 @@
 
 static void makeChoice(void);
 static bool isInteger(const char *str);
+static void processUserInput(void);
+static void processInput(const char *input);
+static void getFileName(char *fileName, int fileNameLen);
+
+static void getFileName(char *fileName, int fileNameLen)
+{
+    printf("Enter file name:\n>> ");
+    fgets(fileName, fileNameLen, stdin);
+    trimUserInput(fileName);
+}
 
 /**
  * @author David Slay
@@ -25,150 +38,206 @@ static void makeChoice(void)
 {
     // NOTE: new options are added here
     static const char *options[] = {
+        // David
+        "Quit",
         "Remove non-characters from input",
         "Validate user input",
-        "Perform Stalin sort",
+        "Perform Stalin/Drop sort",
+        // Xavier options
+        "Add item to inventory",
+        "Remove item from inventory",
+        // Aayaan options
+        "Evaluate the vocabulary of a file",
+        // Waleed options
+        "Perform input validation",
+        // Colton
         "Use Integer Calculator",
     };
-    printf("Choose an option:\n");
-    int optionsLength = sizeof(options) / sizeof(options[0]);
-    for (int i = 0; i < optionsLength; i++)
+
+    bool isUserContinuing = true;
+    while (isUserContinuing)
     {
-        printf("\t%d. %s\n", (i + 1), options[i]);
-    }
-
-    bool validInput = false;
-
-    char buf[INPUT_BUFFER_SIZE] = ""; // +1 for null-terminating char
-    while (!validInput)
-    {
-        printf(">> ");
-        fgets(buf, INPUT_BUFFER_SIZE, stdin);
-        int lastChar = strlen(buf) - 1;
-        if (buf[lastChar] == '\n')
+        printf("\nChoose an option:\n");
+        int optionsLength = sizeof(options) / sizeof(options[0]);
+        for (int i = 0; i < optionsLength; i++)
         {
-            // make this the new end of the string if it's a newline char
-            buf[lastChar] = 0;
+            printf("\t%d. %s\n", i, options[i]);
         }
 
-        if (isInteger(buf))
-        {
-            validInput = true;
-        }
-        else
-        {
-            // invalid, clear buffer
-            memset(buf, 0, INPUT_BUFFER_SIZE);
-        }
-    }
+        bool validInput = false;
 
-    long int userInput = 0;
-    errno = 0;
-    userInput = strtol(buf, NULL, 10);
-    if (errno)
-    {
-        fprintf(stderr, "Error converting user input to long\n");
-    }
-
-    // NOTE: add functions as cases here
-    switch (userInput)
-    {
-    case 1:
-        removeInvalidChars();
-        break;
-    case 2:
-        Account account;
-        if (createAccount(&account))
+        char buf[INPUT_BUFFER_SIZE + 1] = ""; // +1 for null-terminating char
+        while (!validInput)
         {
-            fprintf(stderr, "Error creating account\n");
-            break;
-        }
-
-        if (printAccountInfo(&account))
-        {
-            fprintf(stderr, "Error printing account info\n");
-            break;
-        }
-
-        break;
-    case 3:
-        int *numArray = NULL;
-        int numElements = NUM_SORT_ARRAY_ELEMENTS;
-        if (getArrayFromUser(&numArray, numElements))
-        {
-            fprintf(stderr, "Error getting array from user\n");
-            break;
-        }
-
-        long int sumBefore = 0;
-        long int sumAfter = 0;
-        // perform sort
-        if (stalinSort(numArray, &numElements, &sumBefore, &sumAfter))
-        {
-            fprintf(stderr, "Error performing Stalin sort\n");
-            break;
-        }
-
-        printf("Result of Stalin sort:\n");
-        for (int i = 0; i < numElements; i++)
-        {
-            if (i == 0)
+            printf(">> ");
+            fgets(buf, INPUT_BUFFER_SIZE, stdin);
+            int lastChar = strlen(buf) - 1;
+            if (buf[lastChar] == '\n')
             {
-                printf("[%d, ", numArray[i]);
+                // make this the new end of the string if it's a newline char
+                buf[lastChar] = 0;
             }
-            else if (i != numElements - 1)
+
+            if (isInteger(buf))
             {
-                printf("%d, ", numArray[i]);
+                validInput = true;
             }
             else
             {
-                printf("%d]", numArray[i]);
+                // invalid, clear buffer
+                memset(buf, 0, INPUT_BUFFER_SIZE);
             }
         }
-        printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
-        freeArrayFromUser(&numArray);
-        break;
-    case 4:
-        char operation[20];
-        char continueAnswer;
 
-        int currentTotal = 0;
-        printf("Enter number to start:\n>> ");
-        scanf("%d", &currentTotal);
-        do
+        long int userInput = 0;
+        errno = 0;
+        userInput = strtol(buf, NULL, 10);
+        if (errno)
         {
-            printf("Enter operation (-,+,*,/,^):\n>> ");
-            scanf("%s", operation);
-            if (strcmp(operation, "-") == 0)
+            fprintf(stderr, "Error converting user input to long\n");
+        }
+
+        // NOTE: add functions as cases here
+        // CWE-478: Ensuring default case exists.
+        switch (userInput)
+        {
+        case 0:
+            isUserContinuing = false;
+            break;
+        case 1:
+        {
+            removeInvalidChars();
+            break;
+        }
+        case 2:
+        {
+            Account account;
+            if (createAccount(&account))
             {
-                currentTotal = subtraction(currentTotal);
+                fprintf(stderr, "Error creating account\n");
+                break;
             }
-            else if (strcmp(operation, "+") == 0)
+
+            if (printAccountInfo(&account))
             {
-                currentTotal = addition(currentTotal);
+                fprintf(stderr, "Error printing account info\n");
+                break;
             }
-            else if (strcmp(operation, "*") == 0)
+
+            break;
+        }
+        case 3:
+        {
+            int *numArray = NULL;
+            int numElements = NUM_SORT_ARRAY_ELEMENTS;
+            if (getArrayFromUser(&numArray, numElements))
             {
-                currentTotal = multiplication(currentTotal);
+                fprintf(stderr, "Error getting array from user\n");
+                break;
             }
-            else if (strcmp(operation, "/") == 0)
+
+            long int sumBefore = 0;
+            long int sumAfter = 0;
+            // perform sort
+            if (stalinSort(numArray, &numElements, &sumBefore, &sumAfter))
             {
-                currentTotal = division(currentTotal);
-            }else if(strcmp(operation, "^") == 0){
-                currentTotal = multiplyByPowerOfTwo(currentTotal);
+                fprintf(stderr, "Error performing Stalin sort\n");
+                break;
             }
-            else
+
+            printf("Result of Stalin sort:\n\t");
+            for (int i = 0; i < numElements; i++)
             {
-                printf("Incorrect input try again.\n");
+                if (i == 0)
+                {
+                    printf("[");
+                }
+
+                printf("%d", numArray[i]);
+
+                if (i < numElements - 1)
+                {
+                    printf(", ");
+                }
+                else
+                {
+                    printf("]");
+                }
             }
-            printf("Current number: %d\n", currentTotal);
-            printf("Do you want to continue (Y/N)?:\n>> ");
-            scanf(" %c", &continueAnswer);
-        } while (continueAnswer != 'N' && continueAnswer != 'n');
-        printf("Final value is: %d\n", currentTotal);
-        break;
-    default:
-        break;
+            printf("\n\tSum before: %ld\n\tSum after: %ld\n", sumBefore, sumAfter);
+            freeArrayFromUser(&numArray);
+            break;
+        }
+        case 4:
+        {
+            // Add item to inventory
+            addItem();
+            break;
+        }
+        case 5:
+        {
+            // Remove item from inventory
+            removeItem();
+            break;
+        }
+        case 6:
+        {
+            char fileName[INPUT_BUFFER_SIZE] = "";
+            getFileName(fileName, INPUT_BUFFER_SIZE);
+
+            countUniqueWords(fileName);
+        }
+        case 7:
+        {
+            processUserInput();
+            break;
+        }
+        case 8:
+        {
+            char operation[20];
+            char continueAnswer;
+
+            int currentTotal = 0;
+            printf("Enter number to start:\n>> ");
+            scanf("%d", &currentTotal);
+            do
+            {
+                printf("Enter operation (-,+,*,/,^):\n>> ");
+                scanf("%s", operation);
+                if (strcmp(operation, "-") == 0)
+                {
+                    currentTotal = subtraction(currentTotal);
+                }
+                else if (strcmp(operation, "+") == 0)
+                {
+                    currentTotal = addition(currentTotal);
+                }
+                else if (strcmp(operation, "*") == 0)
+                {
+                    currentTotal = multiplication(currentTotal);
+                }
+                else if (strcmp(operation, "/") == 0)
+                {
+                    currentTotal = division(currentTotal);
+                }
+                else if (strcmp(operation, "^") == 0)
+                {
+                    currentTotal = multiplyByPowerOfTwo(currentTotal);
+                }
+                else
+                {
+                    printf("Incorrect input try again.\n");
+                }
+                printf("Current number: %d\n", currentTotal);
+                printf("Do you want to continue (Y/N)?:\n>> ");
+                scanf(" %c", &continueAnswer);
+            } while (continueAnswer != 'N' && continueAnswer != 'n');
+            printf("Final value is: %d\n", currentTotal);
+            break;
+        }
+        default:
+            break;
+        }
     }
 }
 
@@ -190,6 +259,70 @@ static bool isInteger(const char *str)
     }
 
     return output;
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Processes user input demonstrating fixed CWE implementations.
+ *
+ * This function prompts the user for input and calls `processInput()` to process it.
+ * It ensures that the input is handled securely and correctly.
+ */
+static void processUserInput(void)
+{
+    char userInput[INPUT_BUFFER_SIZE];
+
+    printf("Enter a number:\n>> ");
+    if (fgets(userInput, sizeof(userInput), stdin) != NULL)
+    {
+        // Remove trailing newline character
+        userInput[strcspn(userInput, "\n")] = '\0';
+
+        processInput(userInput);
+    }
+    else
+    {
+        fprintf(stderr, "Error reading input.\n");
+    }
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Processes input data with proper validation and handling.
+ *
+ * This function demonstrates proper handling by fixing several common weaknesses.
+ *
+ * @param input The input data provided by the user.
+ */
+static void processInput(const char *input)
+{
+    // Call the fixed processIntegerInput function (CWE-1287)
+    processIntegerInput(input);
+
+    // Call the fixed validateAlphanumericInput function (CWE-115)
+    validateAlphanumericInput(input);
+
+    // Call the fixed typeConfusion function (CWE-351)
+    typeConfusion();
+
+    // Convert input to integer for further processing
+    char *endptr;
+    errno = 0;
+    long value = strtol(input, &endptr, 10);
+    if (errno != 0 || *endptr != '\0')
+    {
+        // Error already reported in processIntegerInput
+        return;
+    }
+
+    // Call the fixed checkValue function (CWE-480)
+    checkValue((int)value);
+
+    // Call the fixed accessArray function (CWE-431)
+    accessArray((int)value);
+
+    // Call the fixed handleError function (CWE-430)
+    handleError((int)value);
 }
 
 int main(void)

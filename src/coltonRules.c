@@ -1,7 +1,7 @@
 
 /*
-* Author: Colton Longstreth
-*/
+ * Author: Colton Longstreth
+ */
 
 #include <stdio.h>
 #include <limits.h>
@@ -24,10 +24,13 @@ int addition(int currentTotal)
     {
         printf("Enter number to add:\n>> ");
         scanf("%d", &addVal);
-        if(currentTotal > INT_MAX - addVal){ //CWE 190 Intger Overflow
+        if (currentTotal > INT_MAX - addVal)
+        { // CWE 190 Intger Overflow
             printf("Error: Integer Overflow exiting without last operation.\n");
             return currentTotal;
-        }else{
+        }
+        else
+        {
             currentTotal += addVal;
         }
     }
@@ -50,16 +53,18 @@ int subtraction(int currentTotal)
     {
         printf("Enter number to subtract:\n>> ");
         scanf("%d", &subtractVal);
-        if(currentTotal < INT_MAX + subtractVal){ //CWE 191 Integer Underflow
+        if (currentTotal < INT_MAX + subtractVal)
+        { // CWE 191 Integer Underflow
             printf("Error: Integer Underflow, exiting without last operation.\n");
             return currentTotal;
-        }else{
+        }
+        else
+        {
             currentTotal -= subtractVal;
         }
     }
     return currentTotal;
 }
-
 
 /**
  * @brief a function that takes an inital value and multiplies based on input given
@@ -77,10 +82,13 @@ int multiplication(int currentTotal)
     {
         printf("Enter number to multiply by:\n>> ");
         scanf("%d", &multiplyVal);
-        if(currentTotal > INT_MAX / multiplyVal){ //CWE 190 Integer Overflow
+        if (currentTotal > INT_MAX / multiplyVal)
+        { // CWE 190 Integer Overflow
             printf("Error: Integer Overflow exiting without last operation.\n");
             return currentTotal;
-        }else{
+        }
+        else
+        {
             currentTotal *= multiplyVal;
         }
     }
@@ -121,20 +129,24 @@ int division(int currentTotal)
  * @param int of current value
  * @return int
  */
-int multiplyByPowerOfTwo(int currentTotal){
+int multiplyByPowerOfTwo(int currentTotal)
+{
     int powerOfTwo;
     printf("Enter X to multiply current total by 2^x.\n>> ");
     scanf("%d", &powerOfTwo);
 
-    if(powerOfTwo >= (sizeof(currentTotal) * 8)){ //CWE 1335 Incorrect Bitwise Shift of Integer
+    if (powerOfTwo >= (sizeof(currentTotal) * 8))
+    { // CWE 1335 Incorrect Bitwise Shift of Integer
         printf("Error: Integer overflow, returning without multiplying by 2^%d.\n", powerOfTwo);
         return currentTotal;
-    }else if(powerOfTwo < 0){ // CWE 1335 Incorrect Bitwise Shift of Integer
-        printf("Error: Incorrect Bitwise Shift returning without multiplying by 2^%d\n",powerOfTwo);
+    }
+    else if (powerOfTwo < 0)
+    { // CWE 1335 Incorrect Bitwise Shift of Integer
+        printf("Error: Incorrect Bitwise Shift returning without multiplying by 2^%d\n", powerOfTwo);
         return currentTotal;
-    }else{
+    }
+    else
+    {
         currentTotal = currentTotal << powerOfTwo;
     }
 }
-
-
