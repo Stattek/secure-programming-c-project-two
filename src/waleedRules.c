@@ -2,6 +2,8 @@
 #include <errno.h>
 #include <ctype.h>
 
+#define ARRAY_LENGTH 5
+
 /**
  * @author Waleed Chatta
  * @brief Processes input with proper type validation.
@@ -55,9 +57,9 @@ void checkValue(int value)
  */
 void accessArray(void)
 {
-    int numbers[5];
+    int numbers[ARRAY_LENGTH];
     int index = 10;
-    if (index >= 0 && index < 5)
+    if (index >= 0 && index < ARRAY_LENGTH)
     {
         numbers[index] = 42;
         printf("Assigned value to array.\n");

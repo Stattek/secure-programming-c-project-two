@@ -214,6 +214,70 @@ static bool isInteger(const char *str)
     return output;
 }
 
+/**
+ * @author Waleed Chatta
+ * @brief Processes user input demonstrating fixed CWE implementations.
+ *
+ * This function prompts the user for input and calls `processInput()` to process it.
+ * It ensures that the input is handled securely and correctly.
+ */
+static void processUserInput(void)
+{
+    char userInput[INPUT_BUFFER_SIZE];
+
+    printf("Enter a number: ");
+    if (fgets(userInput, sizeof(userInput), stdin) != NULL)
+    {
+        // Remove trailing newline character
+        userInput[strcspn(userInput, "\n")] = '\0';
+
+        processInput(userInput);
+    }
+    else
+    {
+        fprintf(stderr, "Error reading input.\n");
+    }
+}
+
+/**
+ * @author Waleed Chatta
+ * @brief Processes input data with proper validation and handling.
+ *
+ * This function demonstrates proper handling by fixing several common weaknesses.
+ *
+ * @param input The input data provided by the user.
+ */
+static void processInput(const char *input)
+{
+    // Call the fixed processIntegerInput function (CWE-1287)
+    processIntegerInput(input);
+
+    // Call the fixed validateAlphanumericInput function (CWE-115)
+    validateAlphanumericInput(input);
+
+    // Call the fixed typeConfusion function (CWE-351)
+    typeConfusion();
+
+    // Convert input to integer for further processing
+    char *endptr;
+    errno = 0;
+    long value = strtol(input, &endptr, 10);
+    if (errno != 0 || *endptr != '\0')
+    {
+        // Error already reported in processIntegerInput
+        return;
+    }
+
+    // Call the fixed checkValue function (CWE-480)
+    checkValue((int)value);
+
+    // Call the fixed accessArray function (CWE-431)
+    accessArray();
+
+    // Call the fixed handleError function (CWE-430)
+    handleError((int)value);
+}
+
 int main(void)
 {
     makeChoice();
