@@ -2,3 +2,4 @@ finalProgram
 *.o
 build/
 .vscode/
+*.gch
