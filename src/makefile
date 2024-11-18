@@ -5,7 +5,8 @@ build/finalProgram.o \
 build/davidRules.o \
 build/xavierRules.o \
 build/aayaanCWE.o \
-build/waleedRules.o
+build/waleedRules.o \
+build/coltonRules.o
 
 build/finalProgram: $(OBJECT_LIST)
 	@ if ! test -d build/; then mkdir build; fi
@@ -31,6 +32,10 @@ build/aayaanCWE.o: aayaanCWE.c
 build/waleedRules.o: waleedRules.c
 	gcc -c waleedRules.c
 	mv waleedRules.o build/
+
+build/coltonRules.o: coltonRules.c
+	gcc -c coltonRules.c
+	mv coltonRules.o build/
 
 build:
 	$(MAKE) setup
