@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "coltonRules.h"
-#include "davidRules.h"
+#include "coltonCWE.h"
+#include "davidCWE.h"
 #define INPUT_BUFFER_SIZE 1024
 
 /**

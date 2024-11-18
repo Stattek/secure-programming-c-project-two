@@ -1,9 +1,9 @@
 /**
  * Created by David Slay
- * Summary: Header for David's rules.
+ * Summary: Header for David's CWEs.
  */
-#ifndef DAVIDRULES_H
-#define DAVIDRULES_H
+#ifndef DAVIDCWE_H
+#define DAVIDCWE_H
 #include <stdbool.h>
 
 #define STR_ARRAY_SIZE 1024

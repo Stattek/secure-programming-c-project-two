@@ -1,9 +1,9 @@
 /**
  * Created by Waleed Chatta
- * Summary: Header for Waleed's rules.
+ * Summary: Header for Waleed's CWEs.
  */
-#ifndef WALEEDRULES_H
-#define WALEEDRULES_H
+#ifndef WALEEDCWE_H
+#define WALEEDCWE_H
 
 #include <stdio.h>
 #include <stdlib.h>

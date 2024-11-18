@@ -1,9 +1,9 @@
 /**
  * Created by Xavier Zamora
- * Summary: Header for Xavier's rules.
+ * Summary: Header for Xavier's CWEs.
  */
-#ifndef XAVIERRULES_H
-#define XAVIERRULES_H
+#ifndef XAVIERCWE_H
+#define XAVIERCWE_H
 
 void addItem(void);
 void removeItem(void);

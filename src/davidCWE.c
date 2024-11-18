@@ -1,8 +1,8 @@
 /**
  * Created by David Slay
- * Summary: Implementation for David's rules.
+ * Summary: Implementation for David's CWEs.
  */
-#include "davidRules.h"
+#include "davidCWE.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdbool.h>
