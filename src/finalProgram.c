@@ -97,7 +97,7 @@ static void makeChoice(void)
             fprintf(stderr, "Error converting user input to long\n");
         }
 
-        // NOTE: add functions as cases here
+        // NOTE: functions are added as cases here
         // CWE-478: Ensuring default case exists.
         switch (userInput)
         {
@@ -193,7 +193,7 @@ static void makeChoice(void)
             break;
         }
         case 8:
-        {   
+        {
 
             runIntCalculator();
             break;
