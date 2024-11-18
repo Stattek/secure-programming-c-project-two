@@ -16,7 +16,7 @@
 /**
  * @brief a function runs the calculator to move all functionality to this file
  */
-void runIntCalculator()
+void runIntCalculator(void)
 {
     char buffer[INPUT_BUFFER_SIZE + 1];
     char operation[INPUT_BUFFER_SIZE + 1];

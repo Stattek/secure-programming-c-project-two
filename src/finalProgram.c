@@ -194,7 +194,6 @@ static void makeChoice(void)
         }
         case 8:
         {
-
             runIntCalculator();
             break;
         }
