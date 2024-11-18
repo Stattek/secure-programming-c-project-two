@@ -1,8 +1,8 @@
 /**
  * Created by David Slay
- * Summary: Implementation for David's rules.
+ * Summary: Implementation for David's CWEs.
  */
-#include "davidRules.h"
+#include "davidCWE.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -157,6 +157,7 @@ static void *executeJob(void *arg)
 }
 
 /**
+ * @author David Slay
  * @brief Adds a string from user input to the job list to be
  * validated and have non-characters removed.
  *
@@ -210,6 +211,7 @@ static void addJob(char *jobStr)
 }
 
 /**
+ * @author David Slay
  * @brief Initializes mutexes and global data to be used by threads.
  * Takes first job from the user.
  */
@@ -227,6 +229,7 @@ static void initializeValues(void)
 }
 
 /**
+ * @author David Slay
  * @brief Sets the continueProcessingFlag value.
  *
  * @param value The new value.
@@ -239,6 +242,7 @@ static void setContinueProcessingFlag(bool value)
 }
 
 /**
+ * @author David Slay
  * @brief Trims the user input by removing the trailing endline character from
  * the string if it exists.
  *
@@ -255,6 +259,7 @@ void trimUserInput(char *userStr)
 }
 
 /**
+ * @author David Slay
  * @brief Function that utilizes multithreading to take in user input
  * and remove all characters from user input. Prints the strings after
  * the user quits. Demonstrates how to avoid deadlock when multithreading,
@@ -308,6 +313,7 @@ void removeInvalidChars(void)
 }
 
 /**
+ * @author David Slay
  * @brief Creates an account from user input, utilizing regex
  * to validate that the input username and password are valid.
  *
@@ -386,6 +392,7 @@ bool createAccount(Account *accountOut)
 }
 
 /**
+ * @author David Slay
  * @brief Prints the info of an account.
  *
  * @param account The account to print.

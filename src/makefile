@@ -2,13 +2,13 @@
 
 OBJECT_LIST=\
 build/finalProgram.o \
-build/davidRules.o \
-build/xavierRules.o \
+build/davidCWE.o \
+build/xavierCWE.o \
 build/aayaanCWE.o \
-build/waleedRules.o
+build/waleedCWE.o \
+build/coltonCWE.o
 
 build/finalProgram: $(OBJECT_LIST)
-	@ if ! test -d build/; then mkdir build; fi
 	gcc -o finalProgram $(OBJECT_LIST)
 	mv finalProgram build/
 
@@ -16,21 +16,25 @@ build/finalProgram.o: finalProgram.c
 	gcc -c finalProgram.c
 	mv finalProgram.o build/
 
-build/davidRules.o: davidRules.c
-	gcc -c davidRules.c
-	mv davidRules.o build/
+build/davidCWE.o: davidCWE.c
+	gcc -c davidCWE.c
+	mv davidCWE.o build/
 
-build/xavierRules.o: xavierRules.c
-	gcc -c xavierRules.c
-	mv xavierRules.o build/
+build/xavierCWE.o: xavierCWE.c
+	gcc -c xavierCWE.c
+	mv xavierCWE.o build/
 
 build/aayaanCWE.o: aayaanCWE.c
 	gcc -c aayaanCWE.c
 	mv aayaanCWE.o build/
 
-build/waleedRules.o: waleedRules.c
-	gcc -c waleedRules.c
-	mv waleedRules.o build/
+build/waleedCWE.o: waleedCWE.c
+	gcc -c waleedCWE.c
+	mv waleedCWE.o build/
+
+build/coltonCWE.o: coltonCWE.c
+	gcc -c coltonCWE.c
+	mv coltonCWE.o build/
 
 build:
 	$(MAKE) setup

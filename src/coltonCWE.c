@@ -9,14 +9,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "coltonRules.h"
-#include "davidRules.h"
+#include "coltonCWE.h"
+#include "davidCWE.h"
 #define INPUT_BUFFER_SIZE 1024
 
 /**
  * @brief a function runs the calculator to move all functionality to this file
  */
-void runIntCalculator()
+void runIntCalculator(void)
 {
     char buffer[INPUT_BUFFER_SIZE + 1];
     char operation[INPUT_BUFFER_SIZE + 1];

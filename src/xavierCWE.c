@@ -1,9 +1,9 @@
 /**
  * Created by Xavier Zamora
- * Summary: Implementation for Xavier's rules.
+ * Summary: Implementation for Xavier's CWEs.
  */
 
-#include "xavierRules.h"
+#include "xavierCWE.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

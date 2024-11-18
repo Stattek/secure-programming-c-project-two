@@ -8,11 +8,11 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "davidRules.h"
-#include "xavierRules.h"
+#include "davidCWE.h"
+#include "xavierCWE.h"
 #include "aayaanCWE.h"
-#include "waleedRules.h"
-#include "coltonRules.h"
+#include "waleedCWE.h"
+#include "coltonCWE.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
@@ -184,8 +184,8 @@ static void makeChoice(void)
         {
             char fileName[INPUT_BUFFER_SIZE] = "";
             getFileName(fileName, INPUT_BUFFER_SIZE);
-
             countUniqueWords(fileName);
+            break;
         }
         case 7:
         {
@@ -194,7 +194,6 @@ static void makeChoice(void)
         }
         case 8:
         {
-
             runIntCalculator();
             break;
         }

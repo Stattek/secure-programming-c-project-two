@@ -3,11 +3,10 @@
 * Summary: Header for simple calculator functions that showcase how to avoid CWE
 */
 
-#ifndef COLTONRULES_H
-#define COLTONRULES_H
+#ifndef COLTONCWE_H
+#define COLTONCWE_H
 
-void runIntCalculator();
-
+void runIntCalculator(void);
 int addition(int firstNumber, int secondNumber);
 int subtraction(int firstNumber, int secondNumber);
 int multiplication(int firstNumber, int secondNumber);
