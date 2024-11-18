@@ -9,7 +9,6 @@ build/waleedRules.o \
 build/coltonRules.o
 
 build/finalProgram: $(OBJECT_LIST)
-	@ if ! test -d build/; then mkdir build; fi
 	gcc -o finalProgram $(OBJECT_LIST)
 	mv finalProgram build/
 
