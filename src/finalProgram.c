@@ -195,7 +195,7 @@ static void makeChoice(void)
         case 8:
         {   
 
-            RunIntCalculator();
+            runIntCalculator();
             break;
         }
         default:
