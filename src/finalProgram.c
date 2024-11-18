@@ -12,6 +12,7 @@
 #include "xavierRules.h"
 #include "aayaanCWE.h"
 #include "waleedRules.h"
+#include "coltonRules.h"
 
 #define INPUT_BUFFER_SIZE 1024
 #define NUM_SORT_ARRAY_ELEMENTS 8
@@ -37,6 +38,7 @@ static void makeChoice(void)
 {
     // NOTE: new options are added here
     static const char *options[] = {
+        // David
         "Quit",
         "Remove non-characters from input",
         "Validate user input",
@@ -48,6 +50,8 @@ static void makeChoice(void)
         "Evaluate the vocabulary of a file",
         // Waleed options
         "Perform input validation",
+        // Colton
+        "Use Integer Calculator",
     };
 
     bool isUserContinuing = true;
@@ -93,7 +97,7 @@ static void makeChoice(void)
             fprintf(stderr, "Error converting user input to long\n");
         }
 
-        // NOTE: add functions as cases here
+        // NOTE: functions are added as cases here
         // CWE-478: Ensuring default case exists.
         switch (userInput)
         {
@@ -186,6 +190,12 @@ static void makeChoice(void)
         case 7:
         {
             processUserInput();
+            break;
+        }
+        case 8:
+        {
+
+            runIntCalculator();
             break;
         }
         default:

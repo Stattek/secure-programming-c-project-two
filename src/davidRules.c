@@ -17,7 +17,7 @@ const char *validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 typedef struct jobList
 {
     struct jobList *nextJob;
-    char theStr[STR_ARRAY_SIZE + 1]; // +1 to hold null terminating character
+    char theStr[STR_ARRAY_SIZE + 1]; // +1 to hold null terminating character CWE 193 Off by One Error
 } jobList;
 
 bool continueProcessingFlag;
