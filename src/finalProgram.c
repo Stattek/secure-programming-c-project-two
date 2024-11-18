@@ -184,8 +184,8 @@ static void makeChoice(void)
         {
             char fileName[INPUT_BUFFER_SIZE] = "";
             getFileName(fileName, INPUT_BUFFER_SIZE);
-
             countUniqueWords(fileName);
+            break;
         }
         case 7:
         {
