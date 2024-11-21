@@ -161,10 +161,9 @@ void removeItem(void)
     // Code commented out below would result in quantity being set to MAX_QUANTITY no matter what
     /*
     if (quantity > MAX_QUANTITY)
-    {
         printf("WARNING: Attempting to remove more items than maximum quantity. Setting quantity to %d.\n", MAX_QUANTITY);
         quantity = MAX_QUANTITY;
-    }*/
+    */
 
     if (quantity > MAX_QUANTITY)
     {
